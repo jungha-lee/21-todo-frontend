@@ -24,6 +24,12 @@ class App extends React.Component {
         );
     };
 
+    update = (item) => {
+        call('/todo', 'PUT', item).then((response) =>
+            this.setState({ items: response.data })
+        );
+    };
+
     delete = (item) => {
         call('/todo', 'DELETE', item).then((response) =>
             this.setState({ items: response.data })
@@ -35,7 +41,12 @@ class App extends React.Component {
             <Paper style={{ margin: 16 }}>
                 <List>
                     {this.state.items.map((item, index) => (
-                        <Todo item={item} key={item.id} delete={this.delete} />
+                        <Todo
+                            item={item}
+                            key={item.id}
+                            update={this.update}
+                            delete={this.delete}
+                        />
                     ))}
                 </List>
             </Paper>
