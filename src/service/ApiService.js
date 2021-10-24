@@ -12,12 +12,20 @@ export function call(api, method, request) {
         // GET method
         options.body = JSON.stringify(request);
     }
-    return fetch(options.url, options).then((response) =>
-        response.json().then((json) => {
-            if (!response.ok) {
-                return Promise.reject(json);
+    return fetch(options.url, options)
+        .then((response) =>
+            response.json().then((json) => {
+                if (!response.ok) {
+                    return Promise.reject(json);
+                }
+                return json;
+            })
+        )
+        .catch((error) => {
+            console.log(error.status);
+            if (error.status === 403) {
+                window.location.href = '/login'; // redirect
             }
-            return json;
-        })
-    );
+            return Promise.reject(error);
+        });
 }
