@@ -32,7 +32,9 @@ export function call(api, method, request) {
 
 export function signin(userDTO) {
     return call('/auth/signin', 'POST', userDTO).then((response) => {
-        console.log('response : ', response);
-        alert('Login token: ' + response.token);
+        if (response.token) {
+            // if token exists, redirect to Todo
+            window.location.href = '/';
+        }
     });
 }
