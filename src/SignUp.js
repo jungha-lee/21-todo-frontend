@@ -1,15 +1,15 @@
 import React from 'react';
-import { signin } from './service/ApiService';
 import {
-    Link,
     Button,
     TextField,
+    Link,
     Grid,
     Container,
     Typography,
 } from '@material-ui/core';
+import { signup } from './service/ApiService';
 
-class Login extends React.Component {
+class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,12 +18,15 @@ class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
+        const username = data.get('username');
         const email = data.get('email');
         const password = data.get('password');
-        // log in using signin method from ApiService
-        signin({ email: email, password: password });
+        signup({ email: email, username: username, password: password }).then(
+            (response) => {
+                window.location.href = '/login';
+            }
+        );
     }
-
     render() {
         return (
             <Container
@@ -31,17 +34,25 @@ class Login extends React.Component {
                 maxWidth="xs"
                 style={{ marginTop: '8%' }}
             >
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography component="h1" variant="h5">
-                            LOG IN
-                        </Typography>
-                    </Grid>
-                </Grid>
                 <form noValidate onSubmit={this.handleSubmit}>
-                    {' '}
-                    {/* Click submit button to execute handleSubmit. */}
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Typography component="h1" variant="h5">
+                                Sign up
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="fname"
+                                name="username"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="username"
+                                label="user name"
+                                autoFocus
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
@@ -72,14 +83,12 @@ class Login extends React.Component {
                                 variant="contained"
                                 color="primary"
                             >
-                                Log in
+                                Sign up
                             </Button>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Link href="/signup" variant="body2">
-                                <Grid item>
-                                    Don't have account? Sign up here.
-                                </Grid>
+                        <Grid item justify="flex-end">
+                            <Link href="/login" variant="body2">
+                                Already have an account? Log in here.
                             </Link>
                         </Grid>
                     </Grid>
@@ -89,4 +98,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default SignUp;
