@@ -4,6 +4,7 @@ const ACCESS_TOKEN = 'ACCESS_TOKEN';
 export function call(api, method, request) {
     let headers = new Headers({
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
     });
 
     // get ACCESS_TOKEN from local storage
